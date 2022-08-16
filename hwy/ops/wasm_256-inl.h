@@ -595,6 +595,11 @@ HWY_API Vec256<int16_t> MulFixedPoint15(Vec256<int16_t>, Vec256<int16_t>) {
   HWY_ASSERT(0);  // Not implemented
 }
 
+HWY_API Vec256<int32_t> MulAddAdjacent(const Vec256<int16_t> a,
+                                       const Vec256<int16_t> b) {
+  return Vec256<int32_t>{wasm_i32x4_dot_i16x8(a.raw, b.raw)};
+}
+
 // Multiplies even lanes (0, 2 ..) and returns the double-width result.
 HWY_API Vec256<int64_t> MulEven(const Vec256<int32_t> a,
                                 const Vec256<int32_t> b) {

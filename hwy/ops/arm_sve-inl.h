@@ -663,6 +663,11 @@ HWY_API svint16_t MulFixedPoint15(svint16_t a, svint16_t b) {
 #endif
 }
 
+// ------------------------------ MulAddAdjacent
+HWY_API svint32_t MulAddAdjacent(const svint16_t a, const svint16_t b) {
+  HWY_ASSERT(0);  // FIXME: Implement this.
+}
+
 // ------------------------------ Div
 HWY_SVE_FOREACH_F(HWY_SVE_RETV_ARGPVV, Div, div)
 

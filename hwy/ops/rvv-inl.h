@@ -975,6 +975,10 @@ HWY_RVV_FOREACH_I16(HWY_RVV_RETV_ARGVV, MulHigh, mulh, _ALL)
 // ------------------------------ MulFixedPoint15
 HWY_RVV_FOREACH_I16(HWY_RVV_RETV_ARGVV, MulFixedPoint15, smul, _ALL)
 
+// ------------------------------ MulAddAdjacent
+// FIXME: Is this correct?
+HWY_RVV_FOREACH_I16(HWY_RVV_RETV_ARGVV, MulAddAdjacent, madd, _ALL)
+
 // ------------------------------ Div
 HWY_RVV_FOREACH_F(HWY_RVV_RETV_ARGVV, Div, fdiv, _ALL)
 

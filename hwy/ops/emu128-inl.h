@@ -830,6 +830,17 @@ HWY_API Vec128<int16_t, N> MulFixedPoint15(Vec128<int16_t, N> a,
   return a;
 }
 
+template <size_t N>
+HWY_API Vec128<int32_t, (N + 1) / 2> MulAddAdjacent(const Vec128<int16_t, N> a,
+                                                    const Vec128<int16_t, N> b) {
+  Vec128<int32_t, (N + 1) / 2> ret;
+  for (size_t i = 0; i < N; i += 2) {
+    ret.raw[i / 2] = static_cast<int32_t>((a.raw[i] * b.raw[i]) +
+                                          (a.raw[i + 1] * b.raw[i + 1]));
+  }
+  return ret;
+}
+
 // Multiplies even lanes (0, 2 ..) and returns the double-wide result.
 template <size_t N>
 HWY_API Vec128<int64_t, (N + 1) / 2> MulEven(const Vec128<int32_t, N> a,

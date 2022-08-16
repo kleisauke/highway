@@ -1719,6 +1719,21 @@ HWY_API Vec128<int16_t, N> MulFixedPoint15(Vec128<int16_t, N> a,
   return Vec128<int16_t, N>(vqrdmulh_s16(a.raw, b.raw));
 }
 
+template <size_t N>
+HWY_API Vec128<int32_t, (N + 1) / 2> MulAddAdjacent(const Vec128<int16_t, N> a,
+                                                    const Vec128<int16_t, N> b) {
+  int32x4_t pl = vmull_s16(vget_low_s16(a.raw), vget_low_s16(b.raw));
+#if HWY_ARCH_ARM_A64
+  int32x4_t ph = vmull_high_s16(a.raw, b.raw);
+  return Vec128<int32_t>(vpaddq_s32(pl, ph));
+#else
+  int32x4_t ph = vmull_s16(vget_high_s16(a.raw), vget_high_s16(b.raw));
+  int32x2_t rl = vpadd_s32(vget_low_s32(pl), vget_high_s32(pl));
+  int32x2_t rh = vpadd_s32(vget_low_s32(ph), vget_high_s32(ph));
+  return Vec128<int32_t>(vcombine_s32(rl, rh));
+#endif
+}
+
 // ------------------------------ Floating-point mul / div
 
 HWY_NEON_DEF_FUNCTION_ALL_FLOATS(operator*, vmul, _, 2)
